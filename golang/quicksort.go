@@ -7,11 +7,11 @@ import (
 	"time"
 )
 
-func swap(x *int, y *int) {
+func swap(x *int32, y *int32) {
 	x, y = y, x
 }
 
-func partition(array []int, p uint, q uint, pivotLocation uint) uint {
+func partition(array []int32, p uint, q uint, pivotLocation uint) uint {
 
 	pivot := array[pivotLocation]
 	swap(&array[pivotLocation], &array[q])
@@ -157,7 +157,7 @@ func partition(array []int, p uint, q uint, pivotLocation uint) uint {
 	return i
 }
 
-func quicksort(array []int, start uint, end uint) {
+func quicksort(array []int32, start uint, end uint) {
 	if start < end {
 		pivot := (end + start) / 2
 		r := partition(array, start, end, pivot)
@@ -173,10 +173,10 @@ func main() {
 	runtime.GOMAXPROCS(2)
 	runtime.LockOSThread()
 	
-	a1 := make([]int, 100000000)
+	a1 := make([]int32, 100000000)
 
 	for i := 0; i < 100000000; i++ {
-		a1[i] = rand.Int()
+		a1[i] = int32(rand.Int())
 	}
 
 	fmt.Printf("a1[0]: %d, a1[1]: %d, a1[2]: %d\n", a1[0], a1[1], a1[2])
