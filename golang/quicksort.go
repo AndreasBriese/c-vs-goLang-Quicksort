@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"math/rand"
+	"runtime"
 	"time"
 )
 
@@ -14,7 +15,138 @@ func partition(array []int, p uint, q uint, pivotLocation uint) uint {
 
 	pivot := array[pivotLocation]
 	swap(&array[pivotLocation], &array[q])
-	i := p
+	i, j := p, p
+	d := (q - p)
+	if d&15 == 0 {
+		for j = p; j < q; j += 16 {
+			if array[j] <= pivot {
+				swap(&array[i], &array[j])
+				i++
+			}
+			if array[j+1] <= pivot {
+				swap(&array[i], &array[j+1])
+				i++
+			}
+			if array[j+2] <= pivot {
+				swap(&array[i], &array[j+2])
+				i++
+			}
+			if array[j+3] <= pivot {
+				swap(&array[i], &array[j+3])
+				i++
+			}
+			if array[j+4] <= pivot {
+				swap(&array[i], &array[j+4])
+				i++
+			}
+			if array[j+5] <= pivot {
+				swap(&array[i], &array[j+1])
+				i++
+			}
+			if array[j+6] <= pivot {
+				swap(&array[i], &array[j+2])
+				i++
+			}
+			if array[j+7] <= pivot {
+				swap(&array[i], &array[j+3])
+				i++
+			}
+			if array[j+8] <= pivot {
+				swap(&array[i], &array[j])
+				i++
+			}
+			if array[j+9] <= pivot {
+				swap(&array[i], &array[j+1])
+				i++
+			}
+			if array[j+10] <= pivot {
+				swap(&array[i], &array[j+2])
+				i++
+			}
+			if array[j+11] <= pivot {
+				swap(&array[i], &array[j+3])
+				i++
+			}
+			if array[j+12] <= pivot {
+				swap(&array[i], &array[j+4])
+				i++
+			}
+			if array[j+13] <= pivot {
+				swap(&array[i], &array[j+1])
+				i++
+			}
+			if array[j+14] <= pivot {
+				swap(&array[i], &array[j+2])
+				i++
+			}
+			if array[j+15] <= pivot {
+				swap(&array[i], &array[j+3])
+				i++
+			}
+		}
+		swap(&array[q], &array[i])
+		return i
+	}
+	if d&7 == 0 {
+		for j = p; j < q; j += 8 {
+			if array[j] <= pivot {
+				swap(&array[i], &array[j])
+				i++
+			}
+			if array[j+1] <= pivot {
+				swap(&array[i], &array[j+1])
+				i++
+			}
+			if array[j+2] <= pivot {
+				swap(&array[i], &array[j+2])
+				i++
+			}
+			if array[j+3] <= pivot {
+				swap(&array[i], &array[j+3])
+				i++
+			}
+			if array[j+4] <= pivot {
+				swap(&array[i], &array[j+4])
+				i++
+			}
+			if array[j+5] <= pivot {
+				swap(&array[i], &array[j+1])
+				i++
+			}
+			if array[j+6] <= pivot {
+				swap(&array[i], &array[j+2])
+				i++
+			}
+			if array[j+7] <= pivot {
+				swap(&array[i], &array[j+3])
+				i++
+			}
+		}
+		swap(&array[q], &array[i])
+		return i
+	}
+	if d&3 == 0 { // %4
+		for j = p; j < q; j += 4 {
+			if array[j] <= pivot {
+				swap(&array[i], &array[j])
+				i++
+			}
+			if array[j+1] <= pivot {
+				swap(&array[i], &array[j+1])
+				i++
+			}
+			if array[j+2] <= pivot {
+				swap(&array[i], &array[j+2])
+				i++
+			}
+			if array[j+3] <= pivot {
+				swap(&array[i], &array[j+3])
+				i++
+			}
+		}
+		swap(&array[q], &array[i])
+		return i
+	}
 	for j := p; j < q; j++ {
 		if array[j] <= pivot {
 			swap(&array[i], &array[j])
@@ -37,6 +169,10 @@ func quicksort(array []int, start uint, end uint) {
 }
 
 func main() {
+	
+	runtime.GOMAXPROCS(2)
+	runtime.LockOSThread()
+	
 	a1 := make([]int, 100000000)
 
 	for i := 0; i < 100000000; i++ {
