@@ -7,155 +7,93 @@ import (
 	"time"
 )
 
-func swap(x *int32, y *int32) {
-	x, y = y, x
-}
-
 func partition(array []int32, p uint, q uint, pivotLocation uint) uint {
 
 	pivot := array[pivotLocation]
-	swap(&array[pivotLocation], &array[q])
+
+	array[pivotLocation], array[q] = array[q], array[pivotLocation]
+
 	i, j := p, p
 	d := (q - p)
-	if d&15 == 0 { // %16
-		for j = p; j < q; j += 16 {
-			if array[j] <= pivot {
-				swap(&array[i], &array[j])
-				i++
-			}
-			if array[j+1] <= pivot {
-				swap(&array[i], &array[j+1])
-				i++
-			}
-			if array[j+2] <= pivot {
-				swap(&array[i], &array[j+2])
-				i++
-			}
-			if array[j+3] <= pivot {
-				swap(&array[i], &array[j+3])
-				i++
-			}
-			if array[j+4] <= pivot {
-				swap(&array[i], &array[j+4])
-				i++
-			}
-			if array[j+5] <= pivot {
-				swap(&array[i], &array[j+1])
-				i++
-			}
-			if array[j+6] <= pivot {
-				swap(&array[i], &array[j+2])
-				i++
-			}
-			if array[j+7] <= pivot {
-				swap(&array[i], &array[j+3])
-				i++
-			}
-			if array[j+8] <= pivot {
-				swap(&array[i], &array[j])
-				i++
-			}
-			if array[j+9] <= pivot {
-				swap(&array[i], &array[j+1])
-				i++
-			}
-			if array[j+10] <= pivot {
-				swap(&array[i], &array[j+2])
-				i++
-			}
-			if array[j+11] <= pivot {
-				swap(&array[i], &array[j+3])
-				i++
-			}
-			if array[j+12] <= pivot {
-				swap(&array[i], &array[j+4])
-				i++
-			}
-			if array[j+13] <= pivot {
-				swap(&array[i], &array[j+1])
-				i++
-			}
-			if array[j+14] <= pivot {
-				swap(&array[i], &array[j+2])
-				i++
-			}
-			if array[j+15] <= pivot {
-				swap(&array[i], &array[j+3])
-				i++
-			}
-		}
-		swap(&array[q], &array[i])
-		return i
-	}
-	if d&7 == 0 { // %8
-		for j = p; j < q; j += 8 {
-			if array[j] <= pivot {
-				swap(&array[i], &array[j])
-				i++
-			}
-			if array[j+1] <= pivot {
-				swap(&array[i], &array[j+1])
-				i++
-			}
-			if array[j+2] <= pivot {
-				swap(&array[i], &array[j+2])
-				i++
-			}
-			if array[j+3] <= pivot {
-				swap(&array[i], &array[j+3])
-				i++
-			}
-			if array[j+4] <= pivot {
-				swap(&array[i], &array[j+4])
-				i++
-			}
-			if array[j+5] <= pivot {
-				swap(&array[i], &array[j+1])
-				i++
-			}
-			if array[j+6] <= pivot {
-				swap(&array[i], &array[j+2])
-				i++
-			}
-			if array[j+7] <= pivot {
-				swap(&array[i], &array[j+3])
-				i++
-			}
-		}
-		swap(&array[q], &array[i])
-		return i
-	}
-	if d&3 == 0 { // %4
-		for j = p; j < q; j += 4 {
-			if array[j] <= pivot {
-				swap(&array[i], &array[j])
-				i++
-			}
-			if array[j+1] <= pivot {
-				swap(&array[i], &array[j+1])
-				i++
-			}
-			if array[j+2] <= pivot {
-				swap(&array[i], &array[j+2])
-				i++
-			}
-			if array[j+3] <= pivot {
-				swap(&array[i], &array[j+3])
-				i++
-			}
-		}
-		swap(&array[q], &array[i])
-		return i
-	}
-	
-	for j = p; j < q; j += 4 {
+	l := (d >> 4) << 4
+
+	for j = p; j < p+l; j += 16 {
+		
 		if array[j] <= pivot {
-			swap(&array[i], &array[j])
+			array[i], array[j] = array[j], array[i]
+			i++
+		}
+		if array[j+1] <= pivot {
+			array[i], array[j+1] = array[j+1], array[i]
+			i++
+		}
+		if array[j+2] <= pivot {
+			array[i], array[j+2] = array[j+2], array[i]
+			i++
+		}
+		if array[j+3] <= pivot {
+			array[i], array[j+3] = array[j+3], array[i]
+			i++
+		}
+		if array[j+4] <= pivot {
+			array[i], array[j+4] = array[j+4], array[i]
+			i++
+		}
+		if array[j+5] <= pivot {
+			array[i], array[j+5] = array[j+5], array[i]
+			i++
+		}
+		if array[j+6] <= pivot {
+			array[i], array[j+6] = array[j+6], array[i]
+			i++
+		}
+		if array[j+7] <= pivot {
+			array[i], array[j+7] = array[j+7], array[i]
+			i++
+		}
+		if array[j+8] <= pivot {
+			array[i], array[j+8] = array[j+8], array[i]
+			i++
+		}
+		if array[j+9] <= pivot {
+			array[i], array[j+9] = array[j+9], array[i]
+			i++
+		}
+		if array[j+10] <= pivot {
+			array[i], array[j+10] = array[j+10], array[i]
+			i++
+		}
+		if array[j+11] <= pivot {
+			array[i], array[j+11] = array[j+11], array[i]
+			i++
+		}
+		if array[j+12] <= pivot {
+			array[i], array[j+12] = array[j+12], array[i]
+			i++
+		}
+		if array[j+13] <= pivot {
+			array[i], array[j+13] = array[j+13], array[i]
+			i++
+		}
+		if array[j+14] <= pivot {
+			array[i], array[j+14] = array[j+14], array[i]
+			i++
+		}
+		if array[j+15] <= pivot {
+			array[i], array[j+15] = array[j+15], array[i]
+			i++
+		}
+		
+	}
+
+	for j = p + l; j < q; j++ {
+		if array[j] <= pivot {
+			array[i], array[j] = array[j], array[i]
 			i++
 		}
 	}
-
-	swap(&array[q], &array[i])
+	
+	array[q], array[i] = array[i], array[q]
 	return i
 }
 
